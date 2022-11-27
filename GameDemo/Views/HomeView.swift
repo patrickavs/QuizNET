@@ -23,24 +23,17 @@ struct HomeView: View {
     @State var colors: [Color] = [.red.opacity(0.8), .blue.opacity(0.8)]
     @State private var text = ["Category", "Difficulty", "Questions"]
     @ObservedObject var vm: QuestionVM
-    @State private var data = ""
     
     var body: some View {
         NavigationStack {
             ZStack {
                 contentHomeView
             }
-            .navigationBarBackButtonHidden()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(LinearGradient(colors: colors, startPoint: .topLeading, endPoint:               .bottomTrailing))
             .navigationTitle(Text("QuizNET"))
         }
     }
-    
-    func getData() {
-        
-    }
-    
     
     var contentHomeView: some View {
         VStack {
@@ -56,9 +49,9 @@ struct HomeView: View {
              .font(.title)
              .padding(.bottom, 20)*/
             
-            MainView(idx: $idxCategories, array: $categories, text: $text[0], data: $data)
-            MainView(idx: $idxDifficulties, array: $difficulties, text: $text[1], data: $data)
-            MainView(idx: $idxNumberOfQuestions, array: $numberOfQuestions, text: $text[2], data: $data)
+            MainView(idx: $idxCategories, array: $categories, text: $text[0], data: $vm.category)
+            MainView(idx: $idxDifficulties, array: $difficulties, text: $text[1], data: $vm.difficulty)
+            MainView(idx: $idxNumberOfQuestions, array: $numberOfQuestions, text: $text[2], data: $vm.limit)
             
             NavigationLink(destination: QuestionView(), label: { HomeButtonView() })
                 .padding(.bottom, 50)
@@ -145,6 +138,10 @@ struct MainView: View {
                 ForEach(array.indices, id: \.self) { index in
                     Text(array[index])
                         .foregroundColor(.black)
+                }
+                .onChange(of: idx) { newValue in
+                    data = array[newValue]
+                    print(data)
                 }
             }
             .pickerStyle(.wheel)

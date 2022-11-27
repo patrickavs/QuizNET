@@ -7,13 +7,14 @@
 
 import Foundation
 import Combine
+import MultipeerConnectivity
 
 class QuestionVM: ObservableObject {
     @Published var questions: [QuestionDataVm] = []
     let networkClerk = NetworkClerk()
     fileprivate var subscription : AnyCancellable!
     @Published var category: String = ""
-    @Published var limit = 20
+    @Published var limit = ""
     @Published var difficulty: String = ""
     let model = ModelInterface()
     
@@ -27,7 +28,7 @@ class QuestionVM: ObservableObject {
         var currentQuestion = model.getFirst()
         while (currentQuestion != nil) {
             networkClerk.category = self.category
-            networkClerk.limit = self.limit
+            networkClerk.limit = Int(self.limit) ?? 20
             networkClerk.difficulty = self.difficulty
             networkClerk.getData()
             questions.append(QuestionDataVm(with: currentQuestion!))
