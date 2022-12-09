@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D04A352293515A1006F4E01 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D04A351293515A1006F4E01 /* Connectivity.swift */; };
 		7D0E0B9428E446FA0044E481 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0E0B9328E446FA0044E481 /* HomeView.swift */; };
 		7D0E0B9628E44F200044E481 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0E0B9528E44F200044E481 /* ProgressBar.swift */; };
 		7D6F1A0029290E4300CDC9FB /* NetworkClerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6F19FF29290E4300CDC9FB /* NetworkClerk.swift */; };
@@ -22,10 +23,10 @@
 		7DE35A9D28E1D90000461C4C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DE35A9C28E1D90000461C4C /* Preview Assets.xcassets */; };
 		7DE35AA528E1E36D00461C4C /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE35AA428E1E36D00461C4C /* QuestionView.swift */; };
 		7DE35AAA28E1E66100461C4C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE35AA928E1E66100461C4C /* Extensions.swift */; };
-		7DE35AAE28E1E9B000461C4C /* HomeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE35AAD28E1E9B000461C4C /* HomeButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D04A351293515A1006F4E01 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		7D0E0B9328E446FA0044E481 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		7D0E0B9528E44F200044E481 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		7D6F19FF29290E4300CDC9FB /* NetworkClerk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClerk.swift; sourceTree = "<group>"; };
@@ -42,7 +43,6 @@
 		7DE35A9C28E1D90000461C4C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7DE35AA428E1E36D00461C4C /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		7DE35AA928E1E66100461C4C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		7DE35AAD28E1E9B000461C4C /* HomeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,7 +133,6 @@
 			children = (
 				7DE35A9728E1D8FF00461C4C /* ContentView.swift */,
 				7DE35AA428E1E36D00461C4C /* QuestionView.swift */,
-				7DE35AAD28E1E9B000461C4C /* HomeButtonView.swift */,
 				7D0E0B9328E446FA0044E481 /* HomeView.swift */,
 				7D0E0B9528E44F200044E481 /* ProgressBar.swift */,
 				7DE0ABB828E8DD18008D2146 /* PersonalData.swift */,
@@ -155,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				7DBF149028E4838D002F1F47 /* QuestionVM.swift */,
+				7D04A351293515A1006F4E01 /* Connectivity.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -239,9 +239,9 @@
 			files = (
 				7DE35A9828E1D8FF00461C4C /* ContentView.swift in Sources */,
 				7DBF148F28E47BD0002F1F47 /* Question.swift in Sources */,
+				7D04A352293515A1006F4E01 /* Connectivity.swift in Sources */,
 				7DE35AA528E1E36D00461C4C /* QuestionView.swift in Sources */,
 				7D6F1A042929126300CDC9FB /* ServerData.swift in Sources */,
-				7DE35AAE28E1E9B000461C4C /* HomeButtonView.swift in Sources */,
 				7D6F1A0029290E4300CDC9FB /* NetworkClerk.swift in Sources */,
 				7D0E0B9428E446FA0044E481 /* HomeView.swift in Sources */,
 				7DE35A9628E1D8FF00461C4C /* GameDemoApp.swift in Sources */,

@@ -11,7 +11,7 @@ import SwiftUI
 struct GameDemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(vm: QuestionVM())
+            ContentView(connectivity: Connectivity(), vm: QuestionVM())
         }
     }
 }

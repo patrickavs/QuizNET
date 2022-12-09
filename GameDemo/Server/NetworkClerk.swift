@@ -11,29 +11,82 @@ import Combine
 public class NetworkClerk {
     var cancellables = Set<AnyCancellable>()
     let model = ModelInterface()
-    var category = ""
-    var limit = 20
-    var difficulty = ""
     
-    func getData() {
+    func getData(category: String?, amount: String?, difficulty: String?, type: String?) {
+        
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "quizapi.io"
-        components.path = "/api/v1/questions"
-        let apiKey = "Hy9Ihl9yPq7oEZoiNr7RaMtdWsBdhfibNzqjfm2p"
-        let limit = String(limit)
-        let queryItemID = URLQueryItem(name: "apiKey", value: apiKey)
-        let queryItemCategory = URLQueryItem(name: "category", value: category)
-        let queryItemLimit = URLQueryItem(name: "limit", value: limit)
+        components.host = "opentdb.com"
+        components.path = "/api.php"
+        
+        var category1: String? {
+            switch category {
+            case Category.General_Knowledge.rawValue:
+                return "9"
+            case Category.Entertainment_Books.rawValue:
+                return "10"
+            case Category.Entertainment_Film.rawValue:
+                return "11"
+            case Category.Entertainment_Music.rawValue:
+                return "12"
+            case Category.Entertainment_Musicals_Theatres.rawValue:
+                return "13"
+            case Category.Entertainment_Television.rawValue:
+                return "14"
+            case Category.Entertainment_VideoGames.rawValue:
+                return "15"
+            case Category.Entertainment_BoardGames.rawValue:
+                return "16"
+            case Category.Science_Nature.rawValue:
+                return "17"
+            case Category.Science_Computers.rawValue:
+                return "18"
+            case Category.Science_Mathematics.rawValue:
+                return "19"
+            case Category.Mythology.rawValue:
+                return "20"
+            case Category.Sports.rawValue:
+                return "21"
+            case Category.Geography.rawValue:
+                return "22"
+            case Category.History.rawValue:
+                return "23"
+            case Category.Politics.rawValue:
+                return "24"
+            case Category.Art.rawValue:
+                return "25"
+            case Category.Celebrities.rawValue:
+                return "26"
+            case Category.Animals.rawValue:
+                return "27"
+            case Category.Vehicles.rawValue:
+                return "28"
+            case Category.Entertainment_Comics.rawValue:
+                return "29"
+            case Category.Science_Gadgets.rawValue:
+                return "30"
+            case Category.Entertainment_Japanese_Anime_Manga.rawValue:
+                return "31"
+            case Category.Entertainment_Cartoon_Animations.rawValue:
+                return "32"
+            default:
+                return ""
+            }
+        }
+        let queryItemCategory = URLQueryItem(name: "category", value: category1)
+        let queryItemLimit = URLQueryItem(name: "amount", value: amount)
         let queryItemDifficulty = URLQueryItem(name: "difficulty", value: difficulty)
-        let queryItems = [queryItemID, queryItemCategory, queryItemLimit, queryItemDifficulty]
+        let queryItemType = URLQueryItem(name: "type", value: type)
+        let queryItems = [queryItemCategory, queryItemLimit, queryItemDifficulty, queryItemType]
         
         components.queryItems = queryItems
-        guard let url = components.url else { return }
+        
+        guard let url = components.url else { print("Failure"); return}
+        print(url)
         
         URLSession.shared.dataTaskPublisher(for: url)
             .receive(on: RunLoop.main)
-            .map(\.data)
+            .map{$0.data}
             .decode(type: QuizElement.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
             .sink { completion in
@@ -42,14 +95,15 @@ public class NetworkClerk {
                     print("Error: \(error.localizedDescription)")
                 case .finished:
                     print("finished")
+                    //print(self.model.getModelData())
+
                 }
             } receiveValue: { value in
-                let questionModel = QuestionModel(serverData: value)
-                let dataStruct = QuestionContainer(questions: questionModel)
-                self.model.update(with: dataStruct)
-                print(value)
+                for i in value.results {
+                    let questionModel = QuestionModel(serverData: i)
+                    self.model.append(with: questionModel)
+                }
             }
             .store(in: &cancellables)
-
     }
 }

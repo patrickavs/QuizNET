@@ -27,10 +27,10 @@ struct ProgressBar: View {
                 .cornerRadius(10)
                 .padding(.leading, -10)*/
             
-            ForEach(0..<vm.limit, id: \.self) { _ in
+            ForEach(0..<(Int(vm.amount)!), id: \.self) { _ in
                 Circle()
                     .foregroundColor(.white)
-                    .padding(-2)
+                    .padding(-3)
             }
         }
     }

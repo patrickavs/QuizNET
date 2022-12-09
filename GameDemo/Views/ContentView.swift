@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var connectivity: Connectivity
     @ObservedObject var vm: QuestionVM
     @State private var showDestination: Bool = false
     @State var colors: [Color] = [.red.opacity(0.8), .blue.opacity(0.8)]
@@ -15,12 +16,12 @@ struct ContentView: View {
         TabView {
             HomeView(colors: colors, vm: vm)
                 .tabItem {
-                    Label("Home", systemImage: "house")
+                    Image(systemName: "house")
                 }
             
             PersonalData(vm: vm)
                 .tabItem {
-                    Label("Profile", systemImage: "person.fill")
+                    Image(systemName: "person.fill")
                 }
             /*CollectionView()
                 .tabItem {
@@ -32,6 +33,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(vm: QuestionVM())
+        ContentView(connectivity: Connectivity(), vm: QuestionVM())
     }
 }

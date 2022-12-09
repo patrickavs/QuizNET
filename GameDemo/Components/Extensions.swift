@@ -12,10 +12,11 @@ extension Text {
     func startButton() -> some View {
         self
             .padding()
+            .padding(.horizontal, 30)
             .background {
-                Color.primary
+                LinearGradient(colors: [.red, .blue], startPoint: .topLeading, endPoint: .bottomTrailing)
             }
-            .foregroundColor(.init(uiColor: .systemBlue))
+            .foregroundColor(.black)
             .cornerRadius(12)
             .foregroundStyle(.shadow(.drop(color: .black, radius: 12)))
     }

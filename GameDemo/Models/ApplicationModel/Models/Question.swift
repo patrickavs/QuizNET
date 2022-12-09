@@ -7,45 +7,41 @@
 
 import Foundation
 
-struct QuestionContainer {
-    
+/*struct QuestionContainer {
+    let id: UUID
     var questionData: QuestionModel
     
     init(questions: QuestionModel) {
         self.questionData = questions
+        self.id = questions.id
     }
     
     mutating func updateQuestions(newQuestions: QuestionModel) {
         self.questionData = newQuestions
     }
-}
+}*/
 
 struct QuestionModel: Identifiable {
-    let id: Int
+    let id: UUID
+    let category: String
+    let difficulty: String
+    let type: String
     let question: String
-    let quizDescription: JSONNull?
-    let answers: Answers
-    let multipleCorrectAnswers: String
-    let correctAnswers: CorrectAnswers
-    let correctAnswer: CorrectAnswer
-    let explanation: JSONNull?
-    let tip: JSONNull?
-    let tags: [Tag]
-    let category: Category
-    let difficulty: Difficulty
+    let correctAnswer: String
+    let incorrectAnswers: [String]
     
-    init(serverData: QuizElement) {
-        id = serverData.id
-        question = serverData.question
-        quizDescription = serverData.quizDescription
-        answers = serverData.answers
-        multipleCorrectAnswers = serverData.multipleCorrectAnswers
-        correctAnswers = serverData.correctAnswers
-        correctAnswer = serverData.correctAnswer
-        explanation = serverData.explanation
-        tags = serverData.tags
-        category = serverData.category
-        difficulty = serverData.difficulty
-        tip = serverData.tip
+    init(serverData: QuizElement.Result) {
+        self.id = serverData.id
+        self.category = serverData.category
+        self.difficulty = serverData.difficulty.rawValue
+        self.type = serverData.type.rawValue
+        self.question = serverData.question
+        self.correctAnswer = serverData.correctAnswer
+        self.incorrectAnswers = serverData.incorrectAnswers
     }
+}
+
+struct Answer {
+    let text: AttributedString
+    let isCorrect: Bool
 }

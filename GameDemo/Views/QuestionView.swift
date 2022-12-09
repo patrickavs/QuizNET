@@ -9,7 +9,7 @@ import SwiftUI
 
 struct QuestionView: View {
     @State var colors: [Color] = [.red.opacity(0.8), .blue.opacity(0.8)]
-    @State private var currentQuestion = "1"
+    @State private var currentQuestion = 0
     @ObservedObject private var vm = QuestionVM()
     var body: some View {
         NavigationStack {
@@ -17,13 +17,13 @@ struct QuestionView: View {
                 VStack {
                     Spacer()
                     HStack {
-                        Text("\(vm.category)".uppercased())
+                        Text("\(String(describing: vm.category))".uppercased())
                             .fontWeight(.medium)
                             .font(.title)
                         
                         Spacer()
                         
-                        Text("\(currentQuestion) / \(vm.limit)")
+                        Text("\(currentQuestion) / \(vm.amount)")
                             .fontWeight(.medium)
                             .font(.title3)
                     }
@@ -31,7 +31,7 @@ struct QuestionView: View {
                     ProgressBar(vm: vm)
                     
                     VStack(alignment: .leading, spacing: 20) {
-                        Text("Wie alt bin ich?")
+                        Text(vm.getQuestion(index: currentQuestion))
                             .foregroundColor(.primary)
                             .font(.system(size: 20))
                             .bold()

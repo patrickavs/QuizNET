@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-typealias dataStructure = QuestionContainer
+typealias dataStructure = QuestionModel
 
 class ModelInterface {
     fileprivate var modelData = DataBase.sharedInstance
@@ -16,13 +16,16 @@ class ModelInterface {
     
     func modelNotifier() -> ObservableObjectPublisher
     {
-      return modelData.objectWillChange
+        return modelData.objectWillChange
     }
     
     func getFirst() -> dataStructure!
     {
         idx = 0
-        return getGuardedValueFor(index: idx)
+        if modelData.modelChanged == true {
+            return getGuardedValueFor(index: idx)
+        }
+        return nil
     }
     
     func getNext() -> dataStructure!
@@ -31,14 +34,19 @@ class ModelInterface {
         return getGuardedValueFor(index: idx)
     }
     
-    func update(with: dataStructure) {
-        guard let idx = DataBase.sharedInstance.allData.firstIndex(where: {$0.questionData.id == with.questionData.id}) else { return }
-        DataBase.sharedInstance.allData[idx] = with
-        readyToUse()
+    func append(with: dataStructure) {
+        DataBase.sharedInstance.allData.append(with)
+        DataBase.sharedInstance.modelChanged = true
+    }
+    
+    func getModelData() -> [dataStructure] {
+        return DataBase.sharedInstance.allData
     }
     
     func append(data: dataStructure) {
-        DataBase.sharedInstance.allData.append(data)
+        guard let idx = DataBase.sharedInstance.allData.firstIndex(where: { $0.id == data.id }) else { return }
+        DataBase.sharedInstance.allData[idx] = data
+        DataBase.sharedInstance.modelChanged = true
     }
     
     func getGuardedValueFor(index: Int) -> dataStructure! {
@@ -50,8 +58,12 @@ class ModelInterface {
         }
     }
     
-    func readyToUse() {
-        DataBase.sharedInstance.modelChanged = true
+    func readyToUse() -> Bool {
+        return modelData.modelChanged == true
+    }
+    
+    func modelChanged() {
+        modelData.modelChanged = true
     }
 }
 

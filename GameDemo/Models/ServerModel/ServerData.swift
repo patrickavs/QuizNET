@@ -1,136 +1,92 @@
-//
-//  ServerData.swift
-//  GameDemo
-//
-//  Created by Patrick Alves on 19.11.22.
-//
-
-import Foundation
-
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let quiz = try? newJSONDecoder().decode(Quiz.self, from: jsonData)
+//   let quizElement = try? newJSONDecoder().decode(QuizElement.self, from: jsonData)
 
 import Foundation
 
 // MARK: - QuizElement
 struct QuizElement: Codable {
-    let id: Int
-    let question: String
-    let quizDescription: JSONNull?
-    let answers: Answers
-    let multipleCorrectAnswers: String
-    let correctAnswers: CorrectAnswers
-    let correctAnswer: CorrectAnswer
-    let explanation, tip: JSONNull?
-    let tags: [Tag]
-    let category: Category
-    let difficulty: Difficulty
-
-    enum CodingKeys: String, CodingKey {
-        case id, question
-        case quizDescription = "description"
-        case answers
-        case multipleCorrectAnswers = "multiple_correct_answers"
-        case correctAnswers = "correct_answers"
-        case correctAnswer = "correct_answer"
-        case explanation, tip, tags, category, difficulty
-    }
-}
-
-// MARK: - Answers
-struct Answers: Codable {
-    let answerA, answerB: String
-    let answerC, answerD, answerE, answerF: String?
-
-    enum CodingKeys: String, CodingKey {
-        case answerA = "answer_a"
-        case answerB = "answer_b"
-        case answerC = "answer_c"
-        case answerD = "answer_d"
-        case answerE = "answer_e"
-        case answerF = "answer_f"
-    }
-}
-
-enum Category: String, Codable, CaseIterable {
-    case sql = "SQL"
-    case kubernetes = "Kubernetes"
-    case bash = "BASH"
-    case javascript = "JavaScript"
-    case docker = "Docker"
-    case laravel = "Laravel"
-    case linux = "Linux"
-    case php = "PHP"
-    case html = "HTML"
-    case wordPress = "WordPress"
-    case devOps = "DevOps"
-}
-
-enum CorrectAnswer: String, Codable {
-    case answerA = "answer_a"
-}
-
-// MARK: - CorrectAnswers
-struct CorrectAnswers: Codable {
-    let answerACorrect, answerBCorrect, answerCCorrect, answerDCorrect: String
-    let answerECorrect, answerFCorrect: String
-
-    enum CodingKeys: String, CodingKey {
-        case answerACorrect = "answer_a_correct"
-        case answerBCorrect = "answer_b_correct"
-        case answerCCorrect = "answer_c_correct"
-        case answerDCorrect = "answer_d_correct"
-        case answerECorrect = "answer_e_correct"
-        case answerFCorrect = "answer_f_correct"
-    }
-}
-
-enum Difficulty: String, Codable, CaseIterable {
-    case easy = "Easy"
-    case medium = "Medium"
-    case hard = "Hard"
-}
-
-// MARK: - Tag
-struct Tag: Codable {
-    let name: Name
-}
-
-enum Name: String, Codable {
-    case mySQL = "MySQL"
-}
-
-typealias Quiz = [QuizElement]
-
-// MARK: - Encode/decode helpers
-
-class JSONNull: Codable, Hashable {
-
-    public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
-        return true
-    }
-
-    public var hashValue: Int {
-        return 0
-    }
+    var results: [Result]
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(hashValue)
-    }
-
-    public init() {}
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if !container.decodeNil() {
-            throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
+    // MARK: - Result
+    struct Result: Codable, Identifiable {
+        var id = UUID()
+        let category: String
+        let type: TypeEnum
+        let difficulty: Difficulty
+        let question, correctAnswer: String
+        let incorrectAnswers: [String]
+        
+        var formattedquestion: AttributedString {
+            do {
+                return try AttributedString(markdown: question)
+            } catch {
+                print("Error with formatted question: \(error)")
+                return ""
+            }
         }
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encodeNil()
+        
+        var answers: [Answer] {
+            do {
+                let correct = [Answer(text: try AttributedString(markdown: correctAnswer), isCorrect: true)]
+                let incorrectAnswers = try incorrectAnswers.map { answer in
+                    Answer(text: try AttributedString(markdown: answer), isCorrect: false)
+                }
+                let allAnswers = correct + incorrectAnswers
+                return allAnswers.shuffled()
+            } catch {
+                print("Error setting answers: \(error)")
+                return []
+            }
+        }
+        
+        enum CodingKeys: String, CodingKey {
+               case category, type, difficulty, question
+               case correctAnswer = "correct_answer"
+               case incorrectAnswers = "incorrect_answers"
+           }
     }
 }
+
+// MARK: - Difficulty
+enum Difficulty: String, Codable, CaseIterable {
+    case easy = "easy"
+    case medium = "medium"
+    case hard = "hard"
+}
+
+// MARK: - Type
+enum TypeEnum: String, Codable, CaseIterable {
+    case boolean = "boolean"
+    case multiple = "multiple"
+}
+
+// MARK: - Category
+enum Category: String, Codable, CaseIterable {
+    case General_Knowledge = "General Knowledge"
+    case Entertainment_Books = "Entertainment: Books"
+    case Entertainment_Film = "Entertainment: Film"
+    case Entertainment_Music = "Entertainment: Music"
+    case Entertainment_Musicals_Theatres = "Entertainment: Musicals & Theatres"
+    case Entertainment_Television = "Entertainment: Television"
+    case Entertainment_VideoGames = "Entertainment: Video Games"
+    case Entertainment_BoardGames = "Entertainment: Board Games"
+    case Science_Nature = "Science & Nature"
+    case Science_Computers = "Science: Computers"
+    case Science_Mathematics = "Science: Mathematics"
+    case Mythology = "Mythology"
+    case Sports = "Sports"
+    case Geography = "Geography"
+    case History = "History"
+    case Politics = "Politics"
+    case Art = "Art"
+    case Celebrities = "Celebrities"
+    case Animals = "Animals"
+    case Vehicles = "Vehicles"
+    case Entertainment_Comics = "Entertainment: Comics"
+    case Science_Gadgets = "Science: Gadgets"
+    case Entertainment_Japanese_Anime_Manga = "Entertainment: Japanese Anime & Manga"
+    case Entertainment_Cartoon_Animations = "Entertainment: Cartoon & Animations"
+}
+
