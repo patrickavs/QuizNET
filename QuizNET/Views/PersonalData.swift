@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MultipeerConnectivity
 
 struct PersonalData: View {
     @State private var player1: String = ""
@@ -56,8 +57,10 @@ struct PersonalData: View {
                     Text("Player1: \(UIDevice.current.name)")
                 }
                 
-                Section("Player2") {
-                    Text("Player2: \(connectivity.getSession().connectedPeers.first!)")
+                if connectivity.getSession().connectedPeers != [] {
+                    Section("Player2") {
+                        Text("Player2: \(connectivity.getSession().connectedPeers.first ?? MCPeerID(displayName: "Empty"))")
+                    }
                 }
             }
         }

@@ -19,12 +19,17 @@ struct ContentView: View {
                 }
             PersonalData(vm: vm)
                 .tabItem {
-                    Image(systemName: "person.fill")
+                    Label("Player(s)", systemImage: "person.fill")
                 }
-            PeerCollectionView(vm: vm)
-                .tabItem {
-                    Label("Devices", systemImage: "tray.full.fill")
-                }
+                .environmentObject(connectivity)
+            
+            if connectivity.availablePeers != [] && connectivity.getSession().connectedPeers != [] {
+                PeerCollectionView(vm: vm)
+                    .tabItem {
+                        Label("Devices", systemImage: "tray.full.fill")
+                    }
+                    .environmentObject(connectivity)
+            }
         }
         .navigationTitle("QuizNET")
         .navigationBarTitleDisplayMode(.inline)

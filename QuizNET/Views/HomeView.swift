@@ -33,16 +33,17 @@ struct HomeView: View {
     @State private var startGame = false
     
     var body: some View {
-        NavigationStack {
+        //NavigationStack {
             ZStack {
                 contentHomeView
             }
             .background(LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing))
             .navigationDestination(isPresented: $startGame) {
                 QuestionView(vm: vm)
+                    .environmentObject(connectivity)
             }
             .navigationBarBackButtonHidden()
-        }
+        //}
     }
     
     var contentHomeView: some View {

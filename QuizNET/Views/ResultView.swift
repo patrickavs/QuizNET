@@ -85,9 +85,11 @@ struct ResultView: View {
             }
             .navigationDestination(isPresented: $retry) {
                 ContentView(vm: vm)
+                    .environmentObject(connectivity)
             }
             .navigationDestination(isPresented: $home) {
                 WelcomeView(vm: vm)
+                    .environmentObject(connectivity)
             }
             .navigationBarBackButtonHidden()
         }

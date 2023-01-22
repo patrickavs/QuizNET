@@ -17,7 +17,7 @@ class ModelInterface {
     
     func modelNotifier() -> ObservableObjectPublisher
     {
-        return modelData.objectWillChange
+        return DataBase.sharedInstance.objectWillChange
     }
     
     func getIndex() -> Int {
@@ -25,7 +25,7 @@ class ModelInterface {
     }
     
     func modelChanged() -> Bool {
-        return modelData.modelChanged == true
+        return DataBase.sharedInstance.modelChanged == true
     }
     
     func getFirst() -> dataStructure!
@@ -54,8 +54,8 @@ class ModelInterface {
     }
     
     func getGuardedValueFor(index: Int) -> dataStructure! {
-        if index < modelData.allData.count {
-            return modelData.allData[index]
+        if index < DataBase.sharedInstance.allData.count {
+            return DataBase.sharedInstance.allData[index]
         }
         else {
             return nil
@@ -82,11 +82,11 @@ class ModelInterface {
     }
     
     func error() -> Bool {
-        if modelData.failure == true { return true } else { return false }
+        if DataBase.sharedInstance.failure == true { return true } else { return false }
     }
     
     func setError(to: Bool) {
-        modelData.failure = to
+        DataBase.sharedInstance.failure = to
     }
     
     func getAnswers(for index: Int) -> [AttributedString] {

@@ -16,6 +16,7 @@ struct QuestionView: View {
         NavigationStack {
             DetailQuestionView(vm: vm, colors: $colors, isSelected: $isSelected)
                 .navigationBarBackButtonHidden()
+                .environmentObject(connectivity)
         }
     }
 }
@@ -65,6 +66,7 @@ struct DetailQuestionView: View {
                 if vm.reachedEnd {
                     NavigationLink {
                         ResultView(vm: vm)
+                            .environmentObject(connectivity)
                     } label: {
                         Text("See Results")
                             .padding()

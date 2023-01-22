@@ -19,7 +19,7 @@ struct AnswerView: View {
             .padding()
             .foregroundColor(.primary)
             .background {
-                !isSelected ? Color.black.opacity(0.12) : (vm.rightAnswer ? .green : .red)
+                !isSelected && !vm.selectedAnswer ? Color.black.opacity(0.12) : (vm.rightAnswer ? .green : .red)
             }
             .onTapGesture {
                 isSelected = true

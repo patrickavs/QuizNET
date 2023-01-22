@@ -29,6 +29,7 @@ class QuestionVM: ObservableObject {
     let model = ModelInterface()
     
     init() {
+        model.removeQuestions()
         subscription = self.model.modelNotifier().sink {
             print("model changed")
             
@@ -91,7 +92,7 @@ class QuestionVM: ObservableObject {
     }
     
     func getAnswers() -> [AttributedString] {
-        if model.getModelData()[index]?.answers == [] {
+        if model.getAnswers(for: index) == [] {
             return []
         }
         return model.getAnswers(for: index)

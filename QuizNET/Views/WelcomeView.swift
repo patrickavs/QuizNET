@@ -63,6 +63,7 @@ struct WelcomeView: View {
                     .font(.title)
                 NavigationLink {
                     ContentView(vm: vm)
+                        .environmentObject(connectivity)
                 } label: {
                     Text("Singleplayer")
                         .padding()
@@ -97,6 +98,7 @@ struct WelcomeView: View {
                 PeerCollectionView(vm: vm)
                     .environmentObject(connectivity)
             }
+            .navigationBarBackButtonHidden()
             
         }
         
