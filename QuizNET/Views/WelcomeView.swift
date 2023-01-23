@@ -14,7 +14,6 @@ struct WelcomeView: View {
     @State private var username: String = ""
     @State private var showPeers = false
     
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -121,6 +120,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(connectivity: Connectivity(username: ""), vm: QuestionVM())
+        WelcomeView(vm: QuestionVM())
     }
 }

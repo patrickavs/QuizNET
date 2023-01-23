@@ -17,7 +17,7 @@ struct PersonalData: View {
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle("Player")
+                .navigationTitle("Player(s)")
                 .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -64,6 +64,7 @@ struct PersonalData: View {
                 }
             }
         }
+        .environmentObject(connectivity)
     }
 }
 

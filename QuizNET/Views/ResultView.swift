@@ -12,6 +12,8 @@ struct ResultView: View {
     @EnvironmentObject var connectivity: Connectivity
     @State private var retry = false
     @State private var home = false
+    @State private var readyToSend: Bool = false
+    @State private var dataFromPeer: String = ""
     var body: some View {
         NavigationStack {
             VStack {
@@ -27,21 +29,9 @@ struct ResultView: View {
                     .font(.headline)
                     .padding(.bottom, 30)
                 
-                /*if connectivity.availablePeers.isEmpty {
-                    Text("No Player found")
-                        .bold()
-                        .padding()
-                        .background {
-                            Color.red
-                        }
-                        .cornerRadius(12)
-                } else {
-                    ForEach(connectivity.availablePeers, id: \.self) { player in
-                        VStack(alignment: .center) {
-                            Text("Score of \(player.displayName): \(vm.score)")
-                        }
-                    }
-                }*/
+                Text("Score from Opponnent: \(dataFromPeer)")
+                    .font(.headline)
+                    .padding(.bottom, 30)
                 
                 Spacer()
                 
@@ -82,6 +72,16 @@ struct ResultView: View {
 
                 
                 Spacer()
+            }
+            .onAppear {
+                readyToSend = true
+            }
+            .alert(isPresented: $readyToSend) {
+                Alert(title: Text("Send your Score"), dismissButton: .default(Text("Send"), action: {
+                    dataFromPeer = String(vm.score)
+                    connectivity.send(data: dataFromPeer)
+                    readyToSend = false
+                }))
             }
             .navigationDestination(isPresented: $retry) {
                 ContentView(vm: vm)

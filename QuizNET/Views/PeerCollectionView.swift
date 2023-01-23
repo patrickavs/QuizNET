@@ -7,17 +7,18 @@
 
 import SwiftUI
 import MultipeerConnectivity
+import os
 
 struct PeerCollectionView: View {
     @ObservedObject var vm: QuestionVM
     @EnvironmentObject var connectivity: Connectivity
-    @State private var startGame = false
+    //@State private var startGame = false
     var body: some View {
         NavigationStack {
-            ListView(vm: vm, startGame: $startGame)
-                .navigationDestination(isPresented: $startGame) {
+            ListView(vm: vm)//, startGame: $startGame)
+                /*.navigationDestination(isPresented: $startGame) {
                     ContentView(vm: vm)
-                }
+                }*/
                 .environmentObject(connectivity)
         }
     }
@@ -32,7 +33,7 @@ struct CollectionView_Previews: PreviewProvider {
 struct ListView: View {
     @ObservedObject var vm: QuestionVM
     @EnvironmentObject var connectivity: Connectivity
-    @Binding var startGame: Bool
+    //@Binding var startGame: Bool
     var body: some View {
         if !connectivity.paired {
             VStack {
@@ -40,7 +41,7 @@ struct ListView: View {
                     Section("Devices") {
                         ForEach(connectivity.availablePeers, id: \.self) { peer in
                             Button {
-                                connectivity.getBrowser().invitePeer(peer, to: connectivity.getSession(), withContext: nil, timeout: 10)
+                                connectivity.getBrowser().invitePeer(peer, to: connectivity.getSession(), withContext: nil, timeout: 40)
                             } label: {
                                 Text(peer.displayName)
                             }
@@ -59,7 +60,7 @@ struct ListView: View {
                     if (connectivity.invitationHandler != nil) {
                         connectivity.invitationHandler!(true, connectivity.getSession())
                     }
-                    startGame = true
+                    //startGame = true
                 }
                 Button("Reject invite") {
                     if (connectivity.invitationHandler != nil) {

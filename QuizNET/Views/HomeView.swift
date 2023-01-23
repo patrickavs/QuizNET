@@ -88,6 +88,7 @@ struct HomeView: View {
             }
             .padding(.horizontal)
         }
+        .environmentObject(connectivity)
     }
 }
 

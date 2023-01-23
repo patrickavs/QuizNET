@@ -21,9 +21,8 @@ struct ContentView: View {
                 .tabItem {
                     Label("Player(s)", systemImage: "person.fill")
                 }
-                .environmentObject(connectivity)
             
-            if connectivity.availablePeers != [] && connectivity.getSession().connectedPeers != [] {
+            if connectivity.getSession().connectedPeers != [] {
                 PeerCollectionView(vm: vm)
                     .tabItem {
                         Label("Devices", systemImage: "tray.full.fill")
@@ -31,9 +30,11 @@ struct ContentView: View {
                     .environmentObject(connectivity)
             }
         }
+        .environmentObject(connectivity)
         .navigationTitle("QuizNET")
         .navigationBarTitleDisplayMode(.inline)
         .tint(.black)
+        .navigationBarBackButtonHidden()
     }
 }
 

@@ -19,14 +19,14 @@ struct QuizElement: Codable {
         let question, correctAnswer: String
         let incorrectAnswers: [String]
         
-        var formattedquestion: AttributedString {
+        /*var formattedquestion: AttributedString {
             do {
                 return try AttributedString(markdown: question)
             } catch {
                 print("Error with formatted question: \(error)")
                 return ""
             }
-        }
+        }*/
         
         var answers: [AttributedString] {
             do {

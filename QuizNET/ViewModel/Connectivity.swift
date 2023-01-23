@@ -74,7 +74,7 @@ public class Connectivity: NSObject, ObservableObject {
     func send(data: String) {
         if !session.connectedPeers.isEmpty {
             do {
-                try session.send(data.data(using: .utf8)!, toPeers: self.availablePeers, with: .reliable)
+                try session.send(data.data(using: .utf8)!, toPeers: session.connectedPeers, with: .reliable)
             } catch {
                 print("Couldnt send data! Error: \(error)")
             }

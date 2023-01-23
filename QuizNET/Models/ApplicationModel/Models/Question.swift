@@ -28,8 +28,3 @@ struct QuestionModel: Identifiable, Equatable {
         self.answers = serverData.answers
     }
 }
-
-struct Answer {
-    let text: AttributedString
-    let isCorrect: Bool
-}
