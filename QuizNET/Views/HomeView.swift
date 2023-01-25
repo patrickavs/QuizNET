@@ -55,7 +55,7 @@ struct HomeView: View {
             MainView(idx: $idxType, array: $type, text: $text[3], data: $vm.type)
             
             HStack {
-                Text("Load Data")
+                Text("Load Questions")
                     .startButton()
                     .onTapGesture {
                         vm.setQuestions()
