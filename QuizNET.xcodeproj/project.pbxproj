@@ -20,6 +20,7 @@
 		7DBF148F28E47BD0002F1F47 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBF148E28E47BD0002F1F47 /* Question.swift */; };
 		7DBF149128E4838D002F1F47 /* QuestionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBF149028E4838D002F1F47 /* QuestionVM.swift */; };
 		7DD7C10028F5835000E0814A /* PeerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD7C0FF28F5835000E0814A /* PeerCollectionView.swift */; };
+		7DDE522229812D2D00377E64 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE522129812D2D00377E64 /* Documentation.docc */; };
 		7DE0ABB928E8DD18008D2146 /* PersonalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE0ABB828E8DD18008D2146 /* PersonalData.swift */; };
 		7DE35A9628E1D8FF00461C4C /* QuizNETApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE35A9528E1D8FF00461C4C /* QuizNETApp.swift */; };
 		7DE35A9828E1D8FF00461C4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE35A9728E1D8FF00461C4C /* ContentView.swift */; };
@@ -44,6 +45,7 @@
 		7DBF148E28E47BD0002F1F47 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		7DBF149028E4838D002F1F47 /* QuestionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionVM.swift; sourceTree = "<group>"; };
 		7DD7C0FF28F5835000E0814A /* PeerCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerCollectionView.swift; sourceTree = "<group>"; };
+		7DDE522129812D2D00377E64 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		7DE0ABB828E8DD18008D2146 /* PersonalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalData.swift; sourceTree = "<group>"; };
 		7DE35A9228E1D8FF00461C4C /* GameDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DE35A9528E1D8FF00461C4C /* QuizNETApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizNETApp.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		7DE35A8928E1D8FF00461C4C = {
 			isa = PBXGroup;
 			children = (
+				7DDE522129812D2D00377E64 /* Documentation.docc */,
 				7DE35A9428E1D8FF00461C4C /* QuizNET */,
 				7DE35A9328E1D8FF00461C4C /* Products */,
 			);
@@ -269,6 +272,7 @@
 				7D1E12F52971513100F92ECF /* Player.swift in Sources */,
 				7DD7C10028F5835000E0814A /* PeerCollectionView.swift in Sources */,
 				7DE0ABB928E8DD18008D2146 /* PersonalData.swift in Sources */,
+				7DDE522229812D2D00377E64 /* Documentation.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

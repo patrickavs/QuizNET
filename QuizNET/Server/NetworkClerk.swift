@@ -75,7 +75,7 @@ public class NetworkClerk {
                 return ""
             }
         }
-
+        
         let queryItemCategory = URLQueryItem(name: "category", value: categorytoInt)
         let queryItemLimit = URLQueryItem(name: "amount", value: amount)
         let queryItemDifficulty = URLQueryItem(name: "difficulty", value: difficulty)

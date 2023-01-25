@@ -76,7 +76,7 @@ enum TypeEnum: String, Codable, CaseIterable {
 
 // MARK: - Category
 enum Category: String, Codable, CaseIterable {
-    case General_Knowledge = "General Knowledge"
+    case General_Knowledge = "General Knowledge" 
     case Entertainment_Books = "Entertainment: Books"
     case Entertainment_Film = "Entertainment: Film"
     case Entertainment_Music = "Entertainment: Music"

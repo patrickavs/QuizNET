@@ -62,6 +62,7 @@ class QuestionVM: ObservableObject {
         }
     }
     
+    /// remove all the data at first and then start fetching the next questions from the server. This data will be saved in the database.
     func setQuestions() {
         model.removeQuestions()
         questions.removeAll()
@@ -91,6 +92,7 @@ class QuestionVM: ObservableObject {
         rightAnswer = false
     }
     
+    /// get all the answers of a single question
     func getAnswers() -> [AttributedString] {
         if model.getAnswers(for: index) == [] {
             return []
@@ -102,17 +104,18 @@ class QuestionVM: ObservableObject {
         
     }
     
-    /// error occured
+    /// set the viewmodel´s error property to true
     func errorOccured() {
         self.error = true
     }
     
-    /// set error property to false
+    /// set error property both in the viewmodel and in the model to false
     func resetError() {
         self.error = false
         model.setError(to: false)
     }
     
+    /// select the tapped Answer and check if the selected answer is correct or incorrect
     func selectAnswer(answer: AttributedString) {
         if answer == model.getModelData()[index]?.correctAnswer {
             selectedAnswer = true
@@ -124,6 +127,7 @@ class QuestionVM: ObservableObject {
         }
     }
     
+    /// reset all of the viewmodel´s properties
     func resetAll() {
         canPlay = false
         reachedEnd = false

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Struct to define how the Progressbar looks like
 struct ProgressBar: View {
     @ObservedObject var vm: QuestionVM
     var body: some View {

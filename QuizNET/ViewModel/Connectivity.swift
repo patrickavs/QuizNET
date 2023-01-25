@@ -71,10 +71,12 @@ public class Connectivity: NSObject, ObservableObject {
         serviceAdvertiser.startAdvertisingPeer()
     }
     
+    /// send the data you give to the function to all connected peers in the current session
     func send(data: String) {
         if !session.connectedPeers.isEmpty {
             do {
-                try session.send(data.data(using: .utf8)!, toPeers: session.connectedPeers, with: .reliable)
+                self.receivedValue = data
+                try session.send(receivedValue.data(using: .utf8)!, toPeers: session.connectedPeers, with: .reliable)
             } catch {
                 print("Couldnt send data! Error: \(error)")
             }
@@ -82,6 +84,7 @@ public class Connectivity: NSObject, ObservableObject {
     }
 }
 
+/// Connectivity extension, which advertises the device to other devices in the local network
 extension Connectivity: MCNearbyServiceAdvertiserDelegate {
     public func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
         /// Let the User know that something went wrong and try again
