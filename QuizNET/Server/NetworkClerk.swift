@@ -8,10 +8,17 @@
 import Foundation
 import Combine
 
+/// NetworkClerk-Class to to get data from the Server
 public class NetworkClerk {
     var cancellables = Set<AnyCancellable>()
     let model = ModelInterface()
     
+    /// Function to fetch the serverdata
+    /// - Parameters:
+    ///   - category: specifies the category for the questions
+    ///   - amount: specifiesthe amount of the questions
+    ///   - difficulty: specifies the difficulty for the questions
+    ///   - type: specifies the type of the questions (boolean, multiple)
     func getData(category: String?, amount: String?, difficulty: String?, type: String?) {
         
         var components = URLComponents()

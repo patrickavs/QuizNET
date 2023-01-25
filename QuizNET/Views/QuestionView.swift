@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// 
 struct QuestionView: View {
     @State var colors: [Color] = [.red.opacity(0.8), .blue.opacity(0.8)]
     @ObservedObject var vm: QuestionVM

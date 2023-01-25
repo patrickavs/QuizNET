@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// Datastructure for data from the server
+/// Datastructure for the quiz questions from the server
 // MARK: - QuizElement
 struct QuizElement: Codable {
     var results: [Result]

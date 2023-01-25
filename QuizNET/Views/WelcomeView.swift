@@ -8,6 +8,7 @@
 import SwiftUI
 import MultipeerConnectivity
 
+/// Start-View to choose wether to play in single- or multiplayer mode
 struct WelcomeView: View {
     @StateObject var connectivity = Connectivity(username: UIDevice.current.name)
     @ObservedObject var vm: QuestionVM

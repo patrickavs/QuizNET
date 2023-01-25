@@ -9,6 +9,7 @@ import Foundation
 import MultipeerConnectivity
 import os
 
+/// Connectivity-Class for handling the peer-to-peer connectivity
 public class Connectivity: NSObject, ObservableObject {
     @Published var availablePeers: [MCPeerID] = []
     @Published var receivedValue = ""

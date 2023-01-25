@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Data-Struct for a question
 struct QuestionModel: Identifiable, Equatable {
     let id: UUID
     let category: String

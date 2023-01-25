@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+/// Observed-Class for handling the questions
 class QuestionVM: ObservableObject {
     @Published var questions: [QuestionDataVm] = []
     let networkClerk = NetworkClerk()

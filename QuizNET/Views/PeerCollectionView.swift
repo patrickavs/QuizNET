@@ -12,13 +12,14 @@ import os
 struct PeerCollectionView: View {
     @ObservedObject var vm: QuestionVM
     @EnvironmentObject var connectivity: Connectivity
-    //@State private var startGame = false
+    @State private var startGame = false
     var body: some View {
         NavigationStack {
-            ListView(vm: vm)//, startGame: $startGame)
-                /*.navigationDestination(isPresented: $startGame) {
+            ListView(vm: vm, startGame: $startGame)
+                .navigationDestination(isPresented: $startGame) {
                     ContentView(vm: vm)
-                }*/
+                        .environmentObject(connectivity)
+                }
                 .environmentObject(connectivity)
         }
     }
@@ -33,7 +34,7 @@ struct CollectionView_Previews: PreviewProvider {
 struct ListView: View {
     @ObservedObject var vm: QuestionVM
     @EnvironmentObject var connectivity: Connectivity
-    //@Binding var startGame: Bool
+    @Binding var startGame: Bool
     var body: some View {
         if !connectivity.paired {
             VStack {
@@ -60,7 +61,6 @@ struct ListView: View {
                     if (connectivity.invitationHandler != nil) {
                         connectivity.invitationHandler!(true, connectivity.getSession())
                     }
-                    //startGame = true
                 }
                 Button("Reject invite") {
                     if (connectivity.invitationHandler != nil) {
@@ -70,8 +70,14 @@ struct ListView: View {
             }
             .navigationTitle("Peers")
         } else {
-            ContentView(vm: vm)
-                .environmentObject(connectivity)
+            VStack {
+                Button {
+                    startGame = true
+                } label: {
+                    Text("Start")
+                }
+
+            }
         }
     }
 }

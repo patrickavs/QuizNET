@@ -22,13 +22,10 @@ struct ContentView: View {
                     Label("Player(s)", systemImage: "person.fill")
                 }
             
-            if connectivity.getSession().connectedPeers != [] {
-                PeerCollectionView(vm: vm)
-                    .tabItem {
-                        Label("Devices", systemImage: "tray.full.fill")
-                    }
-                    .environmentObject(connectivity)
-            }
+            PeerCollectionView(vm: vm)
+                .tabItem {
+                    Label("Devices", systemImage: "tray.full.fill")
+                }
         }
         .environmentObject(connectivity)
         .navigationTitle("QuizNET")

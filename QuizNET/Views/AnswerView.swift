@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// This View defines how one answer is displayed 
 struct AnswerView: View {
     @ObservedObject var vm: QuestionVM
     var answer: AttributedString = ""

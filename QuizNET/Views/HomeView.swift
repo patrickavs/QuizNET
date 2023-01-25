@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// This View 
 struct HomeView: View {
     @State private var categories: [String] = Category.allCases.map { category in
         return category.rawValue

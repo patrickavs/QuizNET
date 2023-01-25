@@ -7,13 +7,13 @@
 
 import SwiftUI
 
+/// This View shows the quiz result 
 struct ResultView: View {
     @ObservedObject var vm: QuestionVM
     @EnvironmentObject var connectivity: Connectivity
     @State private var retry = false
     @State private var home = false
     @State private var readyToSend: Bool = false
-    //@State private var dataFromPeer: String = ""
     var body: some View {
         NavigationStack {
             VStack {
@@ -57,7 +57,7 @@ struct ResultView: View {
                     Button {
                         vm.resetAll()
                         self.home = true
-                        //connectivity.getSession().disconnect()
+                        connectivity.getSession().disconnect()
                     } label: {
                         Text("Home")
                             .frame(width: 100)
