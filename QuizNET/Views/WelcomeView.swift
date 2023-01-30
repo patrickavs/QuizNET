@@ -25,7 +25,7 @@ struct WelcomeView: View {
                     Text("Welcome!")
                         .font(.title)
                         .padding(.bottom, 10)
-                    // MARK: I tried to give the user the chance to apply a username, but this didnt work yet
+                    // MARK: I tried to give the user the chance to apply a username, but didnt work yet
                     /*TextField("Enter your name", text: $username)
                      .multilineTextAlignment(.center)
                      .padding(.bottom, 50)

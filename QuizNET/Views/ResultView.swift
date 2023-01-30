@@ -16,6 +16,7 @@ struct ResultView: View {
     @State private var home = false
     @State private var result: Result = .tie
     @State private var messageForResult = ""
+    @State private var sentData = false
     var body: some View {
         NavigationStack {
             VStack {
@@ -37,7 +38,9 @@ struct ResultView: View {
                         .font(.headline)
                         .padding(.bottom, 30)
                     
+                    // MARK: Still a problem with displaying the result on both devices
                     Text("Result: \(messageForResult)")
+                        .font(.headline)
                 }
                 
                 Spacer()
@@ -91,13 +94,12 @@ struct ResultView: View {
             .onAppear {
                 if connectivity.getSession().connectedPeers != [] {
                     connectivity.send(data: String(vm.score))
+                    sentData = true
                 }
             }
-            .onChange(of: connectivity.receivedValue, perform: { value in
+            .onChange(of: connectivity.receivedValue, perform: { _ in
                 checkResult()
-                if value != "" {
-                    messageForResult = resultMessage()
-                }
+                messageForResult = resultMessage()
             })
             .alert(isPresented: $connectivity.disconnectedAlert) {
                 Alert(title: Text("\(connectivity.disconnectedMessage)"), message: nil, dismissButton: .cancel())
