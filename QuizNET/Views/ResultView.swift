@@ -45,49 +45,7 @@ struct ResultView: View {
                 
                 Spacer()
                 
-                HStack(alignment: .center, spacing: 20) {
-                    Button {
-                        vm.resetAll()
-                        // MARK: New Invitation to a new session doesn`t work yet
-                        if connectivity.getSession().connectedPeers != [] {
-                            /*connectivity.getBrowser().invitePeer(connectivity.getSession().connectedPeers.first!, to: connectivity.getSession(), withContext: nil, timeout: 40)*/
-                            self.retry = true
-                        }
-                        if connectivity.getSession().connectedPeers == [] {
-                            self.retry = true
-                        }
-                    } label: {
-                        Text("Retry")
-                            .frame(width: 100)
-                            .padding()
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                            .background {
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                            }
-                            .cornerRadius(12)
-                    }
-                    
-                    Button {
-                        vm.resetAll()
-                        self.home = true
-                        if connectivity.getSession().connectedPeers != [] {
-                            connectivity.getSession().disconnect()
-                        }
-                    } label: {
-                        Text("Home")
-                            .frame(width: 100)
-                            .padding()
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                            .background {
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                            }
-                            .cornerRadius(12)
-                    }
-                }
+                ButtonView(vm: vm, retry: $retry, home: $home)
                 
                 Spacer()
             }
@@ -167,4 +125,56 @@ struct ResultView: View {
 /// This enum is used to choose who of the participants won or loss. If both results are equal the state will be tie.
 enum Result {
     case win, loss, tie
+}
+
+struct ButtonView: View {
+    @EnvironmentObject var connectivity: Connectivity
+    @ObservedObject var vm: QuestionVM
+    @Binding var retry: Bool
+    @Binding var home: Bool
+    var body: some View {
+        HStack(alignment: .center, spacing: 20) {
+            Button {
+                vm.resetAll()
+                // MARK: New Invitation to a new session doesn`t work yet
+                if connectivity.getSession().connectedPeers != [] {
+                    /*connectivity.getBrowser().invitePeer(connectivity.getSession().connectedPeers.first!, to: connectivity.getSession(), withContext: nil, timeout: 40)*/
+                    self.retry = true
+                }
+                if connectivity.getSession().connectedPeers == [] {
+                    self.retry = true
+                }
+            } label: {
+                Text("Retry")
+                    .frame(width: 100)
+                    .padding()
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .background {
+                        Rectangle()
+                            .fill(.ultraThinMaterial)
+                    }
+                    .cornerRadius(12)
+            }
+            
+            Button {
+                vm.resetAll()
+                self.home = true
+                if connectivity.getSession().connectedPeers != [] {
+                    connectivity.getSession().disconnect()
+                }
+            } label: {
+                Text("Home")
+                    .frame(width: 100)
+                    .padding()
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .background {
+                        Rectangle()
+                            .fill(.ultraThinMaterial)
+                    }
+                    .cornerRadius(12)
+            }
+        }
+    }
 }
