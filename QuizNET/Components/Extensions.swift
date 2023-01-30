@@ -10,7 +10,7 @@ import SwiftUI
 
 
 extension Text {
-    /// This Function describe how the startbutton looks like
+    /// This Function describes how the startbutton looks like
     /// - Returns: Returns a Button-View
     func startButton() -> some View {
         self

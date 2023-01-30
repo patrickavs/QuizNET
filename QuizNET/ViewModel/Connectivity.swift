@@ -17,14 +17,20 @@ public class Connectivity: NSObject, ObservableObject {
     @Published var receivedInviteFrom: MCPeerID? = nil
     @Published var paired: Bool = false
     @Published var invitationHandler: ((Bool, MCSession?) -> Void)?
+    @Published var hideStartButton = false
+    @Published var personalPlayerName = ""
+    @Published var disconnectedMessage = ""
+    @Published var disconnectedAlert = false
+    //@Published var retryAlert = false
     
-    private let serviceType = "quiznet-service"
+    let serviceType = "quiznet-service"
     private var myPeerID: MCPeerID
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
-    private let serviceBrowser: MCNearbyServiceBrowser
-    private let session: MCSession
+    var serviceBrowser: MCNearbyServiceBrowser
+    private var session: MCSession
     private let log = Logger()
     
+    /// Initialize all the properties
     init(username: String) {
         let peerID = MCPeerID(displayName: username)
         self.myPeerID = peerID
@@ -38,9 +44,6 @@ public class Connectivity: NSObject, ObservableObject {
         session.delegate = self
         serviceAdvertiser.delegate = self
         serviceBrowser.delegate = self
-        
-        serviceAdvertiser.startAdvertisingPeer()
-        serviceBrowser.startBrowsingForPeers()
     }
     
     deinit {
@@ -48,36 +51,46 @@ public class Connectivity: NSObject, ObservableObject {
         serviceBrowser.stopBrowsingForPeers()
     }
     
-    func changeUsername(userName: String) {
-        self.myPeerID = MCPeerID(displayName: userName)
+    // MARK: I tried to give the user the chance to apply a username, but this didnt work yet
+    /// Set the username for the device, which can be seen for others if the device advertises itself
+    /// - Parameter userName: Username for the device
+    func setUsername(userName: String) {
+        self.personalPlayerName = userName
     }
     
+    /// The device starts to browse for other peers
     func browse() {
         serviceBrowser.startBrowsingForPeers()
     }
     
+    /// Get the current session
+    /// - Returns: Returns the current session
     func getSession() -> MCSession {
         return session
     }
     
+    /// Get the current servicebrowser
+    /// - Returns: Returns the current servicebrowser
     func getBrowser() -> MCNearbyServiceBrowser {
         return serviceBrowser
     }
     
+    /// Get the current serviceadvertiser
+    /// - Returns: Returns the current serviceadvertiser
     func getAdvertiser() -> MCNearbyServiceAdvertiser {
         return serviceAdvertiser
     }
     
+    /// The device starts to advertise, that it can be detected by other devices
     func advertise() {
         serviceAdvertiser.startAdvertisingPeer()
     }
     
-    /// send the data you give to the function to all connected peers in the current session
+    /// Send the data you give to the function to all connected peers in the current session
     func send(data: String) {
         if !session.connectedPeers.isEmpty {
             do {
-                self.receivedValue = data
-                try session.send(receivedValue.data(using: .utf8)!, toPeers: session.connectedPeers, with: .reliable)
+                try session.send(data.data(using: .utf8)!, toPeers: session.connectedPeers, with: .reliable)
             } catch {
                 print("Couldnt send data! Error: \(error)")
             }
@@ -92,6 +105,12 @@ extension Connectivity: MCNearbyServiceAdvertiserDelegate {
         log.error("ServiceAdvertiser didNotStartAdvertisingPeer: \(String(describing: error))")
     }
     
+    /// This function handles invitations from other peers
+    /// - Parameters:
+    ///   - advertiser: Current MCNearbyServiceAdvertiser
+    ///   - peerID: The Peer, which should be advertised
+    ///   - context: Optional context
+    ///   - invitationHandler: Give PeerCollectionView the `invitationHandler` so it can accept/deny the invitation
     public func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         log.info("didReceiveInvitationFromPeer \(peerID)")
         DispatchQueue.main.async {
@@ -99,13 +118,16 @@ extension Connectivity: MCNearbyServiceAdvertiserDelegate {
             self.receivedInvite = true
             /// Give PeerCollectionView the peerID of the peer who invited us
             self.receivedInviteFrom = peerID
-            /// Give PeerCollectionView the `invitationHandler` so it can accept/deny the invitation
             self.invitationHandler = invitationHandler
         }
     }
 }
 
 extension Connectivity: MCNearbyServiceBrowserDelegate {
+    /// This function handles browsing errors
+    /// - Parameters:
+    ///   - browser: Current NearbyServiceBrowser
+    ///   - error: Error description
     public func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         log.error("ServiceBrowser didNotStartBrowsingForPeers: \(String(describing: error))")
     }
@@ -145,11 +167,20 @@ extension Connectivity: MCSessionDelegate {
             break
         case .connecting:
             print("Connecting...")
+            break
         case .notConnected:
-            // Peer disconnected
+            /// Peer disconnected
             DispatchQueue.main.async {
                 self.paired = false
             }
+            
+            DispatchQueue.main.async { [self] in
+                disconnectedAlert = true
+            }
+            
+            /// Disconnected message
+            self.disconnectedMessage = "\(peerID.displayName) is disconnected!"
+            
             /// Peer disconnected, start accepting invitaions again
             serviceAdvertiser.startAdvertisingPeer()
             break
@@ -162,22 +193,49 @@ extension Connectivity: MCSessionDelegate {
         }
     }
     
+    /// Handles received data from other peers
+    /// - Parameters:
+    ///   - session: Current MCSession
+    ///   - data: Data that was sent by another device
+    ///   - peerID: Peer that sent the data
     public func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         if let string = String(data: data, encoding: .utf8) {
             log.info("didReceive \(string) from \(peerID)")
+            DispatchQueue.main.async {
+                self.receivedValue = string
+            }
         } else {
             log.info("didReceive invalid value \(data.count) bytes")
         }
     }
     
+    /// Notify this device that an Inputstream was received from another device
+    /// - Parameters:
+    ///   - session: Current MCSession
+    ///   - stream: Received InputStream
+    ///   - streamName: Name of the stream
+    ///   - peerID: Peer that sent the data
     public func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         log.error("Receiving streams is not supported")
     }
     
+    /// This function is called when the device received a resource
+    /// - Parameters:
+    ///   - session: Current MCSession
+    ///   - resourceName: Resource name
+    ///   - peerID: Peer that sent the resource
+    ///   - progress: Progress description
     public func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
         log.error("Receiving resources is not supported")
     }
     
+    /// This function is called when the device finished receiving resources
+    /// - Parameters:
+    ///   - session: Current MCSession
+    ///   - resourceName: Resource name
+    ///   - peerID: peerID from the sending device
+    ///   - localURL: URL from the resource
+    ///   - error: Error description
     public func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
         log.error("Receiving resources is not supported")
     }

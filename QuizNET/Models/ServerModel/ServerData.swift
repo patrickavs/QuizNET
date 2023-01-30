@@ -11,6 +11,7 @@ struct QuizElement: Codable {
     var results: [Result]
     
     // MARK: - Result
+    /// Datastructure for one single question
     struct Result: Codable, Identifiable {
         var id = UUID()
         let category: String
@@ -62,6 +63,7 @@ struct QuizElement: Codable {
 }
 
 // MARK: - Difficulty
+/// Difficulty-Enum for iterating over the variety of difficulties
 enum Difficulty: String, Codable, CaseIterable {
     case easy = "easy"
     case medium = "medium"
@@ -69,12 +71,14 @@ enum Difficulty: String, Codable, CaseIterable {
 }
 
 // MARK: - Type
+/// TypeEnum to choose either true or false, or multiple answers
 enum TypeEnum: String, Codable, CaseIterable {
     case boolean = "boolean"
     case multiple = "multiple"
 }
 
 // MARK: - Category
+/// Category-Enum for iterating over the variety of categories
 enum Category: String, Codable, CaseIterable {
     case General_Knowledge = "General Knowledge" 
     case Entertainment_Books = "Entertainment: Books"

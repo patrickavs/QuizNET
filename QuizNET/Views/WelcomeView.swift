@@ -8,7 +8,7 @@
 import SwiftUI
 import MultipeerConnectivity
 
-/// Start-View to choose wether to play in single- or multiplayer mode
+/// Start-View to choose wether to play in Single- or Multiplayer mode
 struct WelcomeView: View {
     @StateObject var connectivity = Connectivity(username: UIDevice.current.name)
     @ObservedObject var vm: QuestionVM
@@ -25,28 +25,29 @@ struct WelcomeView: View {
                     Text("Welcome!")
                         .font(.title)
                         .padding(.bottom, 10)
-                    TextField("Enter your name", text: $username)
-                        .multilineTextAlignment(.center)
-                        .padding(.bottom, 50)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                    
-                    Button {
-                        connectivity.changeUsername(userName: username)
-                    } label: {
-                        Text("Save")
-                            .padding()
-                            .padding(.horizontal, 30)
-                            .background {
-                                username == "" ? Rectangle()
-                                    .fill(.gray)
-                                    .cornerRadius(12) :
-                                Rectangle()
-                                    .fill(.green)
-                                    .cornerRadius(12)
-                            }
-                    }
-                    .disabled(username == "")
+                    // MARK: I tried to give the user the chance to apply a username, but this didnt work yet
+                    /*TextField("Enter your name", text: $username)
+                     .multilineTextAlignment(.center)
+                     .padding(.bottom, 50)
+                     .textFieldStyle(.roundedBorder)
+                     .padding(.horizontal)
+                     
+                     Button {
+                     connectivity.setUsername(userName: username)
+                     } label: {
+                     Text("Save")
+                     .padding()
+                     .padding(.horizontal, 30)
+                     .background {
+                     username == "" ? Rectangle()
+                     .fill(.gray)
+                     .cornerRadius(12) :
+                     Rectangle()
+                     .fill(.green)
+                     .cornerRadius(12)
+                     }
+                     }
+                     .disabled(username == "")*/
                     
                 }
                 .frame(maxWidth: 300, maxHeight: 300)
@@ -81,6 +82,8 @@ struct WelcomeView: View {
                 
                 Button {
                     showPeers = true
+                    connectivity.browse()
+                    connectivity.advertise()
                 } label: {
                     Text("Search for Connections")
                         .padding()
@@ -101,26 +104,11 @@ struct WelcomeView: View {
             .navigationBarBackButtonHidden()
             
         }
-        
-        /*Button {
-         connectivity = Connectivity(username: username)
-         connectivity.advertise()
-         } label: {
-         Text("Host a session")
-         .padding()
-         .padding(.horizontal, 20)
-         .background {
-         Rectangle()
-         .fill(.ultraThinMaterial)
-         .cornerRadius(12)
-         }
-         }
-         .disabled(username == "")*/
     }
 }
 
-struct WelcomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        WelcomeView(vm: QuestionVM())
-    }
-}
+/*struct WelcomeView_Previews: PreviewProvider {
+ static var previews: some View {
+ WelcomeView(vm: QuestionVM())
+ }
+ }*/

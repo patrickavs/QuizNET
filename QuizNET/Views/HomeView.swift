@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// This View 
+/// In the HomeView you select which question parameters you want to choose and based on it you will get the appropriate questions
 struct HomeView: View {
     @State private var categories: [String] = Category.allCases.map { category in
         return category.rawValue
@@ -16,7 +16,7 @@ struct HomeView: View {
     @State private var difficulties: [String] = Difficulty.allCases.map { difficulty in
         return difficulty.rawValue
     }
-    @State private var numberOfQuestions: [String] = Array(1...30).map { number in
+    @State private var numberOfQuestions: [String] = Array(1...10).map { number in
         return String(number)
     }
     @State private var type: [String] = TypeEnum.allCases.map { type in
@@ -37,6 +37,9 @@ struct HomeView: View {
         //NavigationStack {
             ZStack {
                 contentHomeView
+            }
+            .onAppear {
+                startGame = false
             }
             .background(LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing))
             .navigationDestination(isPresented: $startGame) {
@@ -99,6 +102,7 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
+/// The MainView displays the picker where you can select your question parameters
 struct MainView: View {
     @Binding var idx: Int
     @Binding var array: [String]

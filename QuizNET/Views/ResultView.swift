@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
+import MultipeerConnectivity
 
-/// This View shows the quiz result 
+/// This view shows the quiz result and differs when the player is playing alone or with someone else
 struct ResultView: View {
     @ObservedObject var vm: QuestionVM
     @EnvironmentObject var connectivity: Connectivity
     @State private var retry = false
     @State private var home = false
-    @State private var readyToSend: Bool = false
     var body: some View {
         NavigationStack {
             VStack {
@@ -28,6 +28,7 @@ struct ResultView: View {
                 Text("Your total score: \(vm.score)")
                     .font(.headline)
                     .padding(.bottom, 30)
+                    .padding(.top)
                 
                 if connectivity.getSession().connectedPeers != [] {
                     Text("Score from Opponnent: \(connectivity.receivedValue)")
@@ -40,7 +41,14 @@ struct ResultView: View {
                 HStack(alignment: .center, spacing: 20) {
                     Button {
                         vm.resetAll()
-                        self.retry = true
+                        // MARK: New Invitation to a new session doesn`t work yet
+                        if connectivity.getSession().connectedPeers != [] {
+                            /*connectivity.getBrowser().invitePeer(connectivity.getSession().connectedPeers.first!, to: connectivity.getSession(), withContext: nil, timeout: 40)*/
+                            self.retry = true
+                        }
+                        if connectivity.getSession().connectedPeers == [] {
+                            self.retry = true
+                        }
                     } label: {
                         Text("Retry")
                             .frame(width: 100)
@@ -57,7 +65,9 @@ struct ResultView: View {
                     Button {
                         vm.resetAll()
                         self.home = true
-                        connectivity.getSession().disconnect()
+                        if connectivity.getSession().connectedPeers != [] {
+                            connectivity.getSession().disconnect()
+                        }
                     } label: {
                         Text("Home")
                             .frame(width: 100)
@@ -72,25 +82,30 @@ struct ResultView: View {
                     }
                 }
                 
-                Button {
-                    connectivity.send(data: String(vm.score))
-                } label: {
-                    Text("Send your Score")
-                        .frame(width: 100)
-                        .padding()
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                        .background {
-                            Rectangle()
-                                .fill(.ultraThinMaterial)
-                        }
-                        .cornerRadius(12)
-                }
-
-
-                
                 Spacer()
             }
+            .onAppear {
+                if connectivity.getSession().connectedPeers != [] {
+                    connectivity.send(data: String(vm.score))
+                }
+            }
+            .alert(isPresented: $connectivity.disconnectedAlert) {
+                Alert(title: Text("\(connectivity.disconnectedMessage)"), message: nil, dismissButton: .cancel())
+            }
+            // MARK: Alert doesn`t work yet
+            /*.alert(isPresented: $connectivity.receivedInvite) {
+                Alert(title: Text("You would like to play again?"), primaryButton: .default(Text("Yes"), action: {
+                    if (connectivity.invitationHandler != nil) {
+                        connectivity.invitationHandler!(true, connectivity.getSession())
+                    }
+                    self.retry = true
+                }), secondaryButton: .default(Text("No"), action: {
+                    if (connectivity.invitationHandler != nil) {
+                        connectivity.invitationHandler!(false, nil)
+                    }
+                    self.retry = false
+                }))
+            }*/
             .navigationDestination(isPresented: $retry) {
                 ContentView(vm: vm)
                     .environmentObject(connectivity)
@@ -104,12 +119,13 @@ struct ResultView: View {
     }
 }
 
-struct ResultView_Previews: PreviewProvider {
-    static var previews: some View {
-        ResultView(vm: QuestionVM())
-    }
-}
-
+/*struct ResultView_Previews: PreviewProvider {
+ static var previews: some View {
+ ResultView(vm: QuestionVM())
+ }
+ }*/
+// MARK: Not used yet
+/// This enum is used to choose who of the participants won or loss. If both results are equal the state will be tie.
 enum Result {
     case win, loss, tie
 }

@@ -1,13 +1,11 @@
 # ``GameDemo``
 
-This is a
+This is a Quiz-App, where you can play either in Single- or Multiplayer mode through a private network.
 
 ## Overview
 
-<!--@START_MENU_TOKEN@-->Text<!--@END_MENU_TOKEN@-->
+![QuestionOverview](questionOverview.png)
+
+* This App uses the Multipeer Connectivity Framework to communicate with other devices through a local network
 
 ## Topics
-
-### <!--@START_MENU_TOKEN@-->Group<!--@END_MENU_TOKEN@-->
-
-- <!--@START_MENU_TOKEN@-->``Symbol``<!--@END_MENU_TOKEN@-->

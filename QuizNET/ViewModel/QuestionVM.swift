@@ -29,6 +29,7 @@ class QuestionVM: ObservableObject {
     
     let model = ModelInterface()
     
+    /// Add the questions to the questions array, when the model notified the viewmodel that it has received data
     init() {
         model.removeQuestions()
         subscription = self.model.modelNotifier().sink {
@@ -63,14 +64,14 @@ class QuestionVM: ObservableObject {
         }
     }
     
-    /// remove all the data at first and then start fetching the next questions from the server. This data will be saved in the database.
+    /// Remove all the data at first and then start fetching the next questions from the server. This data will be saved in the database.
     func setQuestions() {
         model.removeQuestions()
         questions.removeAll()
         networkClerk.getData(category: category, amount: amount, difficulty: difficulty, type: type)
     }
     
-    /// get the current formatted question
+    /// Get the current formatted question
     func getQuestion() -> AttributedString {
         do {
             return try AttributedString(markdown: model.getQuestion(for: index) ?? "Error")
@@ -79,9 +80,10 @@ class QuestionVM: ObservableObject {
         }
     }
     
-    /// get the next formatted question
+    /// Get the next formatted question
     func getNextQuestion() {
         selectedAnswer = false
+        /// Set the reachedEnd property at the penultimate question to true that the last question has the "See Result"-Button
         if index+1 >= model.getModelData().count-1 {
             reachedEnd = true
             index = model.getModelData().count-1
@@ -93,7 +95,7 @@ class QuestionVM: ObservableObject {
         rightAnswer = false
     }
     
-    /// get all the answers of a single question
+    /// Get all the answers of a single question
     func getAnswers() -> [AttributedString] {
         if model.getAnswers(for: index) == [] {
             return []
@@ -101,22 +103,18 @@ class QuestionVM: ObservableObject {
         return model.getAnswers(for: index)
     }
     
-    func save(player1: String, player2: String) {
-        
-    }
-    
-    /// set the viewmodel´s error property to true
+    /// Set the viewmodel´s error property to true
     func errorOccured() {
         self.error = true
     }
     
-    /// set error property both in the viewmodel and in the model to false
+    /// Set error property both in the viewmodel and in the model to false
     func resetError() {
         self.error = false
         model.setError(to: false)
     }
     
-    /// select the tapped Answer and check if the selected answer is correct or incorrect
+    /// Select the tapped Answer and check if the selected answer is correct or incorrect
     func selectAnswer(answer: AttributedString) {
         if answer == model.getModelData()[index]?.correctAnswer {
             selectedAnswer = true
@@ -128,7 +126,7 @@ class QuestionVM: ObservableObject {
         }
     }
     
-    /// reset all of the viewmodel´s properties
+    /// Reset all of the viewmodel´s properties
     func resetAll() {
         canPlay = false
         reachedEnd = false

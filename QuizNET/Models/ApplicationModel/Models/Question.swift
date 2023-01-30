@@ -18,6 +18,8 @@ struct QuestionModel: Identifiable, Equatable {
     let incorrectAnswers: [String]
     var answers: [AttributedString]
     
+    /// saves the serverdata
+    /// - Parameter serverData: Data from the server
     init(serverData: QuizElement.Result) {
         self.id = serverData.id
         self.category = serverData.category

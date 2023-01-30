@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// 
+/// This view embeds the DetailQuestionView in a NavigationStack to enable hiding the Back-Button
 struct QuestionView: View {
     @State var colors: [Color] = [.red.opacity(0.8), .blue.opacity(0.8)]
     @ObservedObject var vm: QuestionVM
@@ -28,6 +28,8 @@ struct QuestionView_Previews: PreviewProvider {
     }
 }
 
+
+/// This view shows how the questions with their answer choices are displayed and gives Information about which category was selected as well as how many questions you already answered
 struct DetailQuestionView: View {
     @ObservedObject var vm: QuestionVM
     @EnvironmentObject var connectivity: Connectivity

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// In this view, the user can choose the quiz parameters
 struct ContentView: View {
     @ObservedObject var vm: QuestionVM
     @EnvironmentObject var connectivity: Connectivity
@@ -27,6 +28,9 @@ struct ContentView: View {
                     Label("Devices", systemImage: "tray.full.fill")
                 }
         }
+        .onAppear {
+            connectivity.hideStartButton = true
+        }
         .environmentObject(connectivity)
         .navigationTitle("QuizNET")
         .navigationBarTitleDisplayMode(.inline)
@@ -35,8 +39,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+/*struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(vm: QuestionVM())
     }
-}
+}*/

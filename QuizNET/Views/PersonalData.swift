@@ -8,6 +8,7 @@
 import SwiftUI
 import MultipeerConnectivity
 
+/// This view shows his and the connected peers' name when the user choose multiplayer mode
 struct PersonalData: View {
     @State private var player1: String = ""
     @State private var player2: String = ""
@@ -24,13 +25,6 @@ struct PersonalData: View {
     
     var content: some View {
         VStack {
-            
-            /*Rectangle()
-                .frame(width: .infinity, height: 1)
-                .edgesIgnoringSafeArea(.horizontal)
-                .padding(.bottom, 30)
-                .foregroundColor(.primary)
-             */
             Divider()
             Spacer(minLength: 40)
             
@@ -59,7 +53,7 @@ struct PersonalData: View {
                 
                 if connectivity.getSession().connectedPeers != [] {
                     Section("Player2") {
-                        Text("Player2: \(connectivity.getSession().connectedPeers.first ?? MCPeerID(displayName: "Empty"))")
+                        Text("Player2: \(connectivity.getSession().connectedPeers.first?.displayName ?? "")")
                     }
                 }
             }
