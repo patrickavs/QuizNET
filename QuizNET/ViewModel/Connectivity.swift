@@ -174,12 +174,12 @@ extension Connectivity: MCSessionDelegate {
                 self.paired = false
             }
             
-            DispatchQueue.main.async { [self] in
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) { [self] in
+                /// Disconnected alert
                 disconnectedAlert = true
+                /// Disconnected message
+                disconnectedMessage = "\(peerID.displayName) is disconnected!"
             }
-            
-            /// Disconnected message
-            self.disconnectedMessage = "\(peerID.displayName) is disconnected!"
             
             /// Peer disconnected, start accepting invitaions again
             serviceAdvertiser.startAdvertisingPeer()
