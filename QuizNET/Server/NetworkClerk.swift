@@ -27,7 +27,7 @@ public class NetworkClerk {
         components.path = "/api.php"
         
         
-        
+        /// map the current category to the associated number
         var categorytoInt: String? {
             switch category {
             case Category.General_Knowledge.rawValue:

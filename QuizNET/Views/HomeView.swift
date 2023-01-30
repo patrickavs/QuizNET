@@ -16,7 +16,7 @@ struct HomeView: View {
     @State private var difficulties: [String] = Difficulty.allCases.map { difficulty in
         return difficulty.rawValue
     }
-    @State private var numberOfQuestions: [String] = Array(1...10).map { number in
+    @State private var questionAmount: [String] = Array(1...10).map { number in
         return String(number)
     }
     @State private var type: [String] = TypeEnum.allCases.map { type in
@@ -55,7 +55,7 @@ struct HomeView: View {
             Spacer(minLength: 30)
             MainView(idx: $idxCategories, array: $categories, text: $text[0], data: $vm.category)
             MainView(idx: $idxDifficulties, array: $difficulties, text: $text[1], data: $vm.difficulty)
-            MainView(idx: $idxNumberOfQuestions, array: $numberOfQuestions, text: $text[2], data: $vm.amount)
+            MainView(idx: $idxNumberOfQuestions, array: $questionAmount, text: $text[2], data: $vm.amount)
             MainView(idx: $idxType, array: $type, text: $text[3], data: $vm.type)
             
             HStack {

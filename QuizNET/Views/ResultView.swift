@@ -14,7 +14,6 @@ struct ResultView: View {
     @EnvironmentObject var connectivity: Connectivity
     @State private var retry = false
     @State private var home = false
-    @State private var quizResultChecked = false
     @State private var result: Result = .tie
     @State private var messageForResult = ""
     var body: some View {
@@ -37,6 +36,8 @@ struct ResultView: View {
                     Text("Score from Opponent: \(connectivity.receivedValue)")
                         .font(.headline)
                         .padding(.bottom, 30)
+                    
+                    Text("Result: \(messageForResult)")
                 }
                 
                 Spacer()
@@ -92,19 +93,16 @@ struct ResultView: View {
                     connectivity.send(data: String(vm.score))
                 }
             }
-            .alert(isPresented: $connectivity.disconnectedAlert) {
-                Alert(title: Text("\(connectivity.disconnectedMessage)"), message: nil, dismissButton: .cancel())
-            }
             .onChange(of: connectivity.receivedValue, perform: { value in
                 checkResult()
                 if value != "" {
                     messageForResult = resultMessage()
-                    quizResultChecked = true
                 }
             })
-            .alert(isPresented: $quizResultChecked) {
-                Alert(title: Text(messageForResult), message: nil, dismissButton: .cancel())
+            .alert(isPresented: $connectivity.disconnectedAlert) {
+                Alert(title: Text("\(connectivity.disconnectedMessage)"), message: nil, dismissButton: .cancel())
             }
+            
             // MARK: Alert doesn`t work yet
             /*.alert(isPresented: $connectivity.receivedInvite) {
              Alert(title: Text("You would like to play again?"), primaryButton: .default(Text("Yes"), action: {
