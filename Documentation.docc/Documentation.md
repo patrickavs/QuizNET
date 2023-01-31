@@ -4,7 +4,10 @@ This is a Quiz-App, where you can play either in Single- or Multiplayer mode thr
 
 ## Overview
 
-- When you want to play in Multiplayer mode, you will see all the available devices you can connect to
+- This App uses the Multipeer Connectivity Framework from Apple to communicate with other devices through a local network
+    - You need to add 2 Bonjour-services to the Info.plist file
+
+- When you want to play in Multiplayer mode, you will see all available devices you can connect to and which are already connected
 
 ![PeerOverview](peerOverview.png)
 
@@ -12,5 +15,7 @@ This is a Quiz-App, where you can play either in Single- or Multiplayer mode thr
 
 ![QuestionOverview](questionOverview.png)
 
-* This App uses the Multipeer Connectivity Framework from Apple to communicate with other devices through a local network
+- You can also see with whom you play with
+
+![PlayerOverview](playerOverview.png)
 

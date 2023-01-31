@@ -89,7 +89,7 @@ struct ResultView: View {
         }
     }
     
-    /// Checks if you won, loose or if this quiz round was a tie
+    /// Checks if you won, loose or whether this quiz round was a tie
     func checkResult() {
         if Int(connectivity.receivedValue)! > vm.score {
             result = .loss
@@ -127,6 +127,7 @@ enum Result {
     case win, loss, tie
 }
 
+/// This view represents the 2 Buttons on the bottom side
 struct ButtonView: View {
     @EnvironmentObject var connectivity: Connectivity
     @ObservedObject var vm: QuestionVM

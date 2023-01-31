@@ -72,6 +72,7 @@ class QuestionVM: ObservableObject {
     }
     
     /// Get the current formatted question
+    /// - Returns: Returns an AttributedString
     func getQuestion() -> AttributedString {
         do {
             return try AttributedString(markdown: model.getQuestion(for: index) ?? "Error")
@@ -96,6 +97,7 @@ class QuestionVM: ObservableObject {
     }
     
     /// Get all the answers of a single question
+    /// - Returns: Returns an array of AttributedString`
     func getAnswers() -> [AttributedString] {
         if model.getAnswers(for: index) == [] {
             return []
@@ -115,6 +117,7 @@ class QuestionVM: ObservableObject {
     }
     
     /// Select the tapped Answer and check if the selected answer is correct or incorrect
+    /// - Parameter answer: the answer which the user selected
     func selectAnswer(answer: AttributedString) {
         if answer == model.getModelData()[index]?.correctAnswer {
             selectedAnswer = true

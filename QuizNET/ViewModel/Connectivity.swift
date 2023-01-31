@@ -9,7 +9,7 @@ import Foundation
 import MultipeerConnectivity
 import os
 
-/// Connectivity-Class for handling the peer-to-peer connectivity
+/// Connectivity-Class to handle the peer-to-peer connectivity
 public class Connectivity: NSObject, ObservableObject {
     @Published var availablePeers: [MCPeerID] = []
     @Published var receivedValue = ""
@@ -46,12 +46,13 @@ public class Connectivity: NSObject, ObservableObject {
         serviceBrowser.delegate = self
     }
     
+    /// When this object is deallocated, the device will stop advertising itself and stop browsing for another peers
     deinit {
         serviceAdvertiser.stopAdvertisingPeer()
         serviceBrowser.stopBrowsingForPeers()
     }
     
-    // MARK: I tried to give the user the chance to apply a username, but this didnt work yet
+    // MARK: I tried to give the user the chance to choose a username, but this didnt work yet
     /// Set the username for the device, which can be seen for others if the device advertises itself
     /// - Parameter userName: Username for the device
     func setUsername(userName: String) {
