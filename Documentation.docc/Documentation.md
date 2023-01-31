@@ -6,6 +6,7 @@ This is a Quiz-App, where you can play either in Single- or Multiplayer mode thr
 
 - This App uses the Multipeer Connectivity Framework from Apple to communicate with other devices through a local network
     - You need to add 2 Bonjour-services to the Info.plist file
+    - It works only when you try it on 2 Simulators
 
 - When you want to play in Multiplayer mode, you will see all available devices you can connect to and which are already connected
 
