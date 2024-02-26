@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct QuizNETApp: App {
+    @StateObject var launchScreenState = LaunchScreenVM()
     var body: some Scene {
         WindowGroup {
-            WelcomeView(vm: QuestionVM())
+            ZStack {
+                WelcomeView(vm: QuestionVM())
+                
+                if !launchScreenState.stopLaunch {
+                    if launchScreenState.state != .finished {
+                        LaunchScreenView()
+                    }
+                }
+            }.environmentObject(launchScreenState)
         }
     }
 }

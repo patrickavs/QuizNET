@@ -11,6 +11,7 @@ import MultipeerConnectivity
 /// Start-View to choose wether to play in Single- or Multiplayer mode
 struct WelcomeView: View {
     @StateObject var connectivity = Connectivity(username: UIDevice.current.name)
+    @EnvironmentObject private var launchScreenState: LaunchScreenVM
     @ObservedObject var vm: QuestionVM
     @State private var username: String = ""
     @State private var showPeers = false
@@ -96,6 +97,13 @@ struct WelcomeView: View {
                 }
                 
                 Spacer()
+            }
+            .onDisappear {
+                launchScreenState.stopLaunch = true
+            }
+            .task {
+                try? await Task.sleep(for: Duration.seconds(0.5))
+                self.launchScreenState.dismiss()
             }
             .navigationDestination(isPresented: $showPeers) {
                 PeerCollectionView(vm: vm)
